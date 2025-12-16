@@ -1,0 +1,34 @@
+# Chronos-Index Project Rules
+
+## General
+- Her zaman TypeScript kullan. JavaScript dosyaları kabul edilmez.
+- Kodda asla `any` tipi kullanma. Gerekirse `unknown` ile başla ve type guard kullan.
+- Her büyük değişiklikten sonra `/docs/progress.md` dosyasını güncelle.
+- Asla tamamlanmamış veya 'placeholder' kod bırakma. Yarım kalırsa dur ve sor.
+
+## Backend (Server)
+- 'Service-Repository' pattern kullan:
+  - `repositories/` - Veritabanı erişimi (TimescaleDB, Redis)
+  - `services/` - İş mantığı
+  - `controllers/` - HTTP request/response handling
+  - `routes/` - Endpoint tanımları
+- Her servis için interface tanımla.
+- Error handling için custom error sınıfları kullan.
+
+## Frontend (Client)
+- 'Feature-Sliced' klasör yapısını benimse:
+  - `features/` - Özellik bazlı modüller
+  - `shared/` - Ortak komponentler ve utility'ler
+  - `entities/` - Domain modelleri
+  - `widgets/` - Kompozit UI blokları
+- Server Components'ı tercih et, Client Components sadece interaktivite için.
+- TanStack Query ile tüm API çağrılarını yönet.
+
+## Code Style
+- Fonksiyon ve değişken isimleri camelCase.
+- Interface ve Type isimleri PascalCase.
+- Sabitler SCREAMING_SNAKE_CASE.
+- Dosya isimleri kebab-case.
+
+## Git Commits
+- Conventional Commits formatı: `feat:`, `fix:`, `docs:`, `refactor:`, `test:`

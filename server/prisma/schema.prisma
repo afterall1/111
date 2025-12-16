@@ -1,0 +1,32 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Symbol {
+  symbol     String   @id // Örn: BTCUSDT
+  baseAsset  String
+  quoteAsset String
+  isActive   Boolean  @default(true)
+  candles    Candle[]
+}
+
+// TimescaleDB Hypertable olacak tablo
+model Candle {
+  time   DateTime
+  symbol String
+  open   Float
+  high   Float
+  low    Float
+  close  Float
+  volume Float
+  
+  // İlişki tanımı (Opsiyonel, Timescale performans için relation kullanmayabiliriz ama Prisma için gerekli)
+  symbolRel Symbol @relation(fields: [symbol], references: [symbol])
+
+  @@id([time, symbol]) // Composite Primary Key (Zaman serileri için zorunlu)
+}
