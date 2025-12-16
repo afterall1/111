@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { QueryProvider } from "@/providers/QueryProvider";
+import StarField from "@/components/Background/StarField";
 
 // Font Konfigürasyonu
 const inter = Inter({
@@ -28,13 +29,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
-      <body className="bg-[#050505] text-gray-200 antialiased selection:bg-cyan-500/30" suppressHydrationWarning>
+      <body className="bg-void text-white antialiased" suppressHydrationWarning>
         <QueryProvider>
-          <main className="min-h-screen relative">
-            {/* Arka plana hafif bir ambient ışık efekti */}
-            <div className="fixed top-0 left-0 w-full h-96 bg-cyan-900/10 blur-[120px] -z-10 pointer-events-none" />
-            {children}
-          </main>
+          <div className="relative min-h-screen">
+            {/* The Void: WebGL Background */}
+            <StarField />
+
+            {/* Content Layer */}
+            <main className="relative z-10">
+              {children}
+            </main>
+          </div>
         </QueryProvider>
       </body>
     </html>

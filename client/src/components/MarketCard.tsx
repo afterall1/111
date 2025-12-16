@@ -1,4 +1,4 @@
-import React from 'react';
+import { motion } from 'framer-motion';
 
 interface MarketCardProps {
     symbol: string;
@@ -8,53 +8,46 @@ interface MarketCardProps {
 
 export function MarketCard({ symbol, price, changePercent }: MarketCardProps) {
     const isPositive = changePercent >= 0;
+    const neonColor = isPositive ? '#00F0FF' : '#FF0055';
 
     return (
-        <div className="group relative flex items-center justify-between p-4 mb-3 rounded-2xl 
-                    bg-[#121212]/60 backdrop-blur-md 
-                    border border-white/5 hover:border-white/10 
-                    transition-all duration-300 hover:bg-[#1A1A1A]/80">
+        <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            whileHover={{ x: 10, backgroundColor: 'rgba(255,255,255,0.05)' }}
+            className="relative flex items-center justify-between p-4 mb-2 overflow-hidden rounded-r-xl border-t border-b border-r border-white/10 bg-black/40 backdrop-blur-md"
+            style={{ borderLeft: `4px solid ${neonColor}` }}
+        >
+            {/* Arkada hafif glow efekti */}
+            <div className="absolute inset-0 opacity-20 bg-gradient-to-r from-transparent via-transparent to-white/5 pointer-events-none" />
 
-            {/* Sol: Sembol Bilgisi */}
-            <div className="flex flex-col">
-                <div className="flex items-baseline gap-2">
-                    <span className="text-white font-bold text-lg tracking-wide">{symbol}</span>
-                    <span className="text-xs text-gray-500 font-medium">USDT</span>
-                </div>
+            <div className="flex flex-col z-10">
+                <h3 className="text-xl font-bold text-white tracking-widest">{symbol}</h3>
+                <span className="text-[10px] text-gray-500 uppercase tracking-[0.2em]">USDT PERPETUAL</span>
             </div>
 
-            {/* Sağ: Fiyat ve Yüzde */}
-            <div className="flex items-center gap-4">
-                {/* Fiyat: JetBrains Mono fontu ile */}
-                <span className="text-gray-300 font-mono text-[15px] tracking-tight">
+            <div className="flex flex-col items-end z-10">
+                <span className="font-mono text-lg text-gray-200" style={{ textShadow: '0 0 10px rgba(255,255,255,0.3)' }}>
                     ${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 6 })}
                 </span>
-
-                {/* Yüzde Badge'i */}
-                <div className={`
-          flex items-center justify-center min-w-[80px] py-1.5 px-3 rounded-lg 
-          font-mono text-xs font-bold border backdrop-blur-sm
-          ${isPositive
-                        ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20 shadow-[0_0_15px_-5px_rgba(16,185,129,0.4)]'
-                        : 'bg-rose-500/10 text-rose-400 border-rose-500/20 shadow-[0_0_15px_-5px_rgba(239,68,68,0.4)]'}
-        `}>
+                <span className="font-mono text-sm font-bold" style={{ color: neonColor, textShadow: `0 0 10px ${neonColor}` }}>
                     {isPositive ? '+' : ''}{changePercent.toFixed(2)}%
-                </div>
+                </span>
             </div>
-        </div>
+        </motion.div>
     );
 }
 
 export function MarketCardSkeleton() {
     return (
-        <div className="flex items-center justify-between p-4 mb-3 rounded-2xl bg-[#121212]/60 border border-white/5 animate-pulse">
-            <div className="flex items-baseline gap-2">
-                <div className="h-5 w-20 bg-white/10 rounded" />
-                <div className="h-3 w-10 bg-white/5 rounded" />
+        <div className="relative flex items-center justify-between p-4 mb-2 overflow-hidden rounded-r-xl border-t border-b border-r border-white/5 bg-black/40 backdrop-blur-md animate-pulse border-l-4 border-l-gray-800">
+            <div className="flex flex-col gap-2">
+                <div className="h-6 w-20 bg-white/10 rounded" />
+                <div className="h-3 w-24 bg-white/5 rounded" />
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex flex-col items-end gap-2">
                 <div className="h-5 w-24 bg-white/10 rounded" />
-                <div className="h-8 w-20 bg-white/5 rounded-lg" />
+                <div className="h-4 w-16 bg-white/5 rounded" />
             </div>
         </div>
     );

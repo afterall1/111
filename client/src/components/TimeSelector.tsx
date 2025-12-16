@@ -7,7 +7,6 @@ interface TimeSelectorProps {
 }
 
 export default function TimeSelector({ periods, selectedPeriod, onSelect }: TimeSelectorProps) {
-    // Dakikayı etikete çevir (örn: 60 -> 1H)
     const formatLabel = (m: number) => {
         if (m === 15) return '15M';
         if (m === 60) return '1H';
@@ -18,8 +17,8 @@ export default function TimeSelector({ periods, selectedPeriod, onSelect }: Time
     };
 
     return (
-        <div className="sticky top-0 z-50 backdrop-blur-xl bg-[#050505]/80 border-b border-white/5 py-3 px-4 mb-6">
-            <div className="flex items-center justify-center gap-2 max-w-md mx-auto overflow-x-auto no-scrollbar">
+        <div className="sticky top-0 z-50 backdrop-blur-sm bg-black/20 border-b border-white/5 pt-4 pb-0 mb-6">
+            <div className="flex items-center justify-center gap-8 max-w-md mx-auto">
                 {periods.map((period) => {
                     const isSelected = selectedPeriod === period;
                     return (
@@ -27,18 +26,19 @@ export default function TimeSelector({ periods, selectedPeriod, onSelect }: Time
                             key={period}
                             onClick={() => onSelect(period)}
                             className={`
-                relative px-4 py-2 rounded-full text-sm font-medium transition-all duration-300
-                ${isSelected ? 'text-white' : 'text-gray-500 hover:text-gray-300'}
+                relative pb-4 text-sm font-bold tracking-widest transition-colors duration-300
+                ${isSelected ? 'text-holo-teal' : 'text-gray-600 hover:text-gray-400'}
               `}
                         >
+                            {formatLabel(period)}
+
                             {isSelected && (
                                 <motion.div
-                                    layoutId="activeTab"
-                                    className="absolute inset-0 bg-[#1F1F1F] rounded-full -z-10 border border-white/10"
+                                    layoutId="cyber-underline"
+                                    className="absolute bottom-0 left-0 right-0 h-[2px] bg-holo-teal shadow-[0_0_10px_#00F0FF]"
                                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
                                 />
                             )}
-                            {formatLabel(period)}
                         </button>
                     );
                 })}
